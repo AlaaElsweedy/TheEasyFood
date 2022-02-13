@@ -1,0 +1,46 @@
+name: talabat_app
+description: A new Flutter project.
+
+publish_to: "none"
+
+version: 1.0.0+1
+
+environment:
+  sdk: ">=2.15.1 <3.0.0"
+
+dependencies:
+  animated_bottom_navigation_bar: ^0.3.2
+  bloc: ^8.0.1
+  buildcondition: ^0.0.4
+  cloud_firestore: ^3.1.5
+  cupertino_icons: ^1.0.2
+  dio: ^4.0.4
+  firebase_auth: ^3.3.4
+  firebase_core: ^1.10.6
+  firebase_storage: ^10.2.4
+  flutter:
+    sdk: flutter
+  flutter_bloc: ^8.0.0
+  flutter_lints: ^1.0.0
+  flutter_svg: ^1.0.0
+  font_awesome_flutter: ^9.2.0
+  geolocator: ^8.0.5
+  google_maps_flutter: ^2.1.1
+  google_sign_in: ^5.2.1
+  image_picker: ^0.8.4+4
+  intl: ^0.17.0
+  material_floating_search_bar: ^0.3.6
+  queen_validators: ^0.2.3
+  shared_preferences: ^2.0.11
+  smooth_page_indicator: ^1.0.0+2
+  url_launcher: ^6.0.18
+  uuid: ^3.0.5
+
+dev_dependencies:
+  flutter_test:
+    sdk: flutter
+
+flutter:
+  uses-material-design: true
+  assets:
+    - assets/images/
