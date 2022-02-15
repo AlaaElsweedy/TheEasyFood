@@ -46,12 +46,13 @@ class MealDetailScreen extends StatelessWidget {
         elevation: 0,
         actions: [
           IconButton(
-              onPressed: () {
-                navigateTo(context, const CartScreen());
-              },
-              icon: const Icon(
-                Icons.shopping_cart,
-              ))
+            onPressed: () {
+              navigateTo(context, CartScreen());
+            },
+            icon: const Icon(
+              Icons.shopping_cart,
+            ),
+          ),
         ],
       ),
       body: Stack(
@@ -84,8 +85,8 @@ class MealDetailScreen extends StatelessWidget {
                   Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
-                      customTitle(title: '$title'),
-                      customTitle(title: '\$ $price')
+                      CustomTitle(title: '$title'),
+                      CustomTitle(title: '\$ $price')
                     ],
                   ),
                   sizedBox20,
@@ -98,30 +99,28 @@ class MealDetailScreen extends StatelessWidget {
                   sizedBox20,
                   const Text('Description'),
                   sizedBox10,
-                  buildSecondHeader(title: '$description'),
+                  BuildSecondHeader(title: '$description'),
                   const Spacer(),
                   BlocBuilder<AppCubit, AppStates>(
                     builder: (context, state) {
-                      if (state is ClearCart) {
-                        AppCubit.get(context).updateCart(
-                          mealId: mealId!,
-                          inCart: inCart! ? false : inCart!,
-                        );
-                        AppCubit.get(context).getMeals();
-                      }
+                      // if (state is ClearCart) {
+                      //   AppCubit.get(context).updateCart(
+                      //     mealId: mealId!,
+                      //     inCart: false,
+                      //     //inCart: inCart! ? false : inCart!,
+                      //   );
+                      // }
 
                       return BuildCondition(
                         condition: state is! AddProductLoadingState,
                         builder: (context) {
-                          return cubit.cart[mealId]!
+                          return cubit.cart.contains(mealId)
                               ? const Center(
                                   child: Text('In Cart!'),
                                 )
                               : DefaultButton(
                                   title: 'Add to cart',
                                   onPressed: () {
-                                    cubit.updateCart(
-                                        mealId: mealId!, inCart: true);
                                     cubit.addProduct(
                                       productId: mealId!,
                                       title: title!,
@@ -136,24 +135,6 @@ class MealDetailScreen extends StatelessWidget {
                       );
                     },
                   ),
-                  // Row(
-                  //   mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  //   children: [
-                  //     const Text('Number of orders'),
-                  //     Row(
-                  //       children: [
-                  //         RoundedButton(title: '-', onPressed: () {}),
-                  //         sizedBoxWidth(5.0),
-                  //         Text(''),
-                  //         sizedBoxWidth(5.0),
-                  //         RoundedButton(
-                  //           title: '+',
-                  //           onPressed: () {},
-                  //         ),
-                  //       ],
-                  //     ),
-                  //   ],
-                  // ),
                 ],
               ),
             ),

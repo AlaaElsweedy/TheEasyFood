@@ -1,4 +1,5 @@
-import 'package:talabat_app/data/models/place_suggestation_model.dart';
+import 'package:talabat_app/data/models/map/place_details_model.dart';
+import 'package:talabat_app/data/models/map/place_suggestation_model.dart';
 import 'package:talabat_app/data/services/remote/place_web_services.dart';
 
 class MapRepository {
@@ -18,5 +19,11 @@ class MapRepository {
     return suggestations
         .map((suggestation) => PlaceSuggestion.fromJson(suggestation))
         .toList();
+  }
+
+  Future<Place> getPlaceLocation(String placeId, String sessionToken) async {
+    final place =
+        await placesWebservices.getPlaceLocation(placeId, sessionToken);
+    return Place.fromJson(place);
   }
 }

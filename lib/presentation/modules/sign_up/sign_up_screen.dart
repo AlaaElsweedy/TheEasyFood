@@ -45,7 +45,8 @@ class SignUp extends StatelessWidget {
                       children: [
                         const BuildHeader(title: 'Sign Up'),
                         sizedBox12,
-                        buildSecondHeader(title: 'Add your details to sign up'),
+                        const BuildSecondHeader(
+                            title: 'Add your details to sign up'),
                         sizedBox28,
                         DefaultTextFormField(
                           context: context,
@@ -136,8 +137,9 @@ class SignUp extends StatelessWidget {
                         Row(
                           mainAxisAlignment: MainAxisAlignment.center,
                           children: [
-                            buildSecondHeader(
-                                title: 'Already have an Account?'),
+                            const BuildSecondHeader(
+                              title: 'Already have an Account?',
+                            ),
                             DefaultTextButton(
                               child: 'Login',
                               onPressed: () {

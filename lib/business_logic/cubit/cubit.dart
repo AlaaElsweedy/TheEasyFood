@@ -89,7 +89,7 @@ class AppCubit extends Cubit<AppStates> {
 
   List<MealModel> meals = [];
   Map<String, bool> favorites = {};
-  Map<String, bool> cart = {};
+  List<String> cart = [];
   MealModel? mealModel;
 
   void getMeals() {
@@ -105,7 +105,7 @@ class AppCubit extends Cubit<AppStates> {
         mealModel = MealModel.fromJson(element.data());
         meals.add(MealModel.fromJson(element.data()));
         favorites.addAll({element.id: mealModel!.isFavorite!});
-        cart.addAll({element.id: mealModel!.inCart!});
+        //cart.addAll({element.id});
       }
       emit(GetMealSuccessState());
     }).catchError((error) {
@@ -214,6 +214,8 @@ class AppCubit extends Cubit<AppStates> {
       quantity: 1,
     );
 
+    cart.add(productId);
+
     FirebaseFirestore.instance
         .collection('users')
         .doc(uId)
@@ -227,21 +229,21 @@ class AppCubit extends Cubit<AppStates> {
     });
   }
 
-  void updateCart({
-    required String mealId,
-    required bool inCart,
-  }) {
-    FirebaseFirestore.instance
-        .collection('users')
-        .doc(uId)
-        .collection('meals')
-        .doc(mealId)
-        .update({'inCart': inCart}).then((value) {
-      getMeals();
-    }).catchError((error) {
-      emit(UpdateProductErrorState());
-    });
-  }
+  // void updateCart({
+  //   required String mealId,
+  //   required bool inCart,
+  // }) {
+  //   FirebaseFirestore.instance
+  //       .collection('users')
+  //       .doc(uId)
+  //       .collection('meals')
+  //       .doc(mealId)
+  //       .update({'inCart': inCart}).then((value) {
+  //     getMeals();
+  //   }).catchError((error) {
+  //     emit(UpdateProductErrorState());
+  //   });
+  // }
 
   void getCartProducts() {
     cartList = [];
@@ -310,7 +312,7 @@ class AppCubit extends Cubit<AppStates> {
         .doc(productId)
         .delete()
         .then((value) {
-      updateCart(mealId: productId, inCart: false);
+      //updateCart(mealId: productId, inCart: false);
       getCartProducts();
     });
   }
@@ -333,6 +335,9 @@ class AppCubit extends Cubit<AppStates> {
       cartItem: cartItem,
     );
 
+    cart.clear();
+    //getMeals();
+
     FirebaseFirestore.instance
         .collection('users')
         .doc(uId)
@@ -340,6 +345,7 @@ class AppCubit extends Cubit<AppStates> {
         .add(model.toJson())
         .then((value) {
       getOrderProducts();
+
       clearCart();
     }).catchError((error) {
       emit(AddOrderctErrorState(error.toString()));
@@ -365,5 +371,35 @@ class AppCubit extends Cubit<AppStates> {
         emit(GetOrdersErrorState());
       });
     }
+  }
+
+  get deliveryCost {
+    double total = getTotalOrdersPrice * 0.04;
+    String inString = total.toStringAsFixed(2);
+    double inDouble = double.parse(inString);
+    return inDouble;
+  }
+
+  get getTotalOrdersPrice {
+    double total = 0.0;
+    for (var item in orders) {
+      total += item.total;
+    }
+    return total;
+  }
+
+  void clearOrders() async {
+    orders.clear();
+
+    var collection = FirebaseFirestore.instance
+        .collection('users')
+        .doc(uId)
+        .collection('orders');
+    var snapshots = await collection.get();
+    for (var doc in snapshots.docs) {
+      await doc.reference.delete();
+    }
+    emit(ClearOrders());
+    emit(GetOrdersSuccessState());
   }
 }

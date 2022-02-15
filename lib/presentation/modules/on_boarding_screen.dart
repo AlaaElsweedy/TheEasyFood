@@ -51,7 +51,7 @@ class OnBoardingScreen extends StatelessWidget {
                     BuildHeader(title: titles[index]),
                     Padding(
                       padding: const EdgeInsets.all(20.0),
-                      child: buildSecondHeader(
+                      child: BuildSecondHeader(
                         title: descriptions[index],
                         textAlign: TextAlign.center,
                       ),

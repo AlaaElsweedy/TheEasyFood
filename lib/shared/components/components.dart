@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
-import 'package:talabat_app/data/models/place_suggestation_model.dart';
+import 'package:talabat_app/data/models/map/place_suggestation_model.dart';
 import 'package:talabat_app/presentation/modules/cart_screen.dart';
 import 'styles/colors.dart';
 
@@ -102,28 +102,80 @@ class TotalText extends StatelessWidget {
   }
 }
 
-Widget buildSecondHeader({
-  required var title,
-  double? fontSize,
-  TextAlign? textAlign,
-}) =>
-    Text(
+class TotalDeliveryPrice extends StatelessWidget {
+  final double price;
+  final String title;
+  final double fontSize;
+
+  const TotalDeliveryPrice({
+    Key? key,
+    required this.price,
+    required this.title,
+    this.fontSize = 20.0,
+  }) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return Row(
+      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+      children: [
+        Text(title),
+        Text(
+          '\$$price',
+          style: TextStyle(
+            color: mainColor,
+            fontSize: fontSize,
+            fontWeight: FontWeight.bold,
+          ),
+        ),
+      ],
+    );
+  }
+}
+
+class BuildSecondHeader extends StatelessWidget {
+  final String title;
+  final double? fontSize;
+  final TextAlign? textAlign;
+
+  const BuildSecondHeader({
+    Key? key,
+    required this.title,
+    this.fontSize,
+    this.textAlign,
+  }) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return Text(
       title,
       textAlign: textAlign,
       style: TextStyle(color: secondaryFontColor, fontSize: fontSize),
     );
+  }
+}
 
-Widget customTitle({
-  required var title,
-  double? fontSize = 18.0,
-}) =>
-    Text(
+class CustomTitle extends StatelessWidget {
+  final String title;
+  final double fontSize;
+
+  const CustomTitle({
+    Key? key,
+    required this.title,
+    this.fontSize = 18.0,
+  }) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return Text(
       title,
       style: TextStyle(
         fontSize: fontSize,
         fontWeight: FontWeight.bold,
       ),
     );
+  }
+}
 
 class DefaultButton extends StatelessWidget {
   final Color color;
@@ -159,30 +211,41 @@ class DefaultButton extends StatelessWidget {
   }
 }
 
-Widget rawButton({
-  required Color buttonColor,
-  required String text,
-  required String image,
-  required VoidCallback onPressed,
-}) {
-  return MaterialButton(
-    color: buttonColor,
-    textColor: Colors.white,
-    shape: RoundedRectangleBorder(
-      borderRadius: BorderRadius.circular(30),
-    ),
-    height: 56,
-    minWidth: double.infinity,
-    child: Row(
-      mainAxisAlignment: MainAxisAlignment.center,
-      children: [
-        SvgPicture.asset(image),
-        const SizedBox(width: 32.4),
-        Text(text),
-      ],
-    ),
-    onPressed: onPressed,
-  );
+class RawButton extends StatelessWidget {
+  final Color buttonColor;
+  final String text;
+  final String image;
+  final VoidCallback onPressed;
+
+  const RawButton({
+    Key? key,
+    required this.buttonColor,
+    required this.text,
+    required this.image,
+    required this.onPressed,
+  }) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return MaterialButton(
+      color: buttonColor,
+      textColor: Colors.white,
+      shape: RoundedRectangleBorder(
+        borderRadius: BorderRadius.circular(30),
+      ),
+      height: 56,
+      minWidth: double.infinity,
+      child: Row(
+        mainAxisAlignment: MainAxisAlignment.center,
+        children: [
+          SvgPicture.asset(image),
+          const SizedBox(width: 32.4),
+          Text(text),
+        ],
+      ),
+      onPressed: onPressed,
+    );
+  }
 }
 
 class DefaultTextButton extends StatelessWidget {
@@ -256,7 +319,7 @@ class DefaultAppBar extends StatelessWidget implements PreferredSizeWidget {
         IconButton(
           icon: const Icon(Icons.shopping_cart),
           onPressed: () {
-            navigateTo(context, const CartScreen());
+            navigateTo(context, CartScreen());
           },
         )
       ],
@@ -280,21 +343,23 @@ class MyDrawer extends StatelessWidget {
             height: 280,
             child: DrawerHeader(
               decoration: BoxDecoration(color: Colors.orange[100]),
-              child: buildDrawerHeader(context),
+              child: const BuildDrawerHeader(),
             ),
           ),
-          buildDrawerListItem(leadingIcon: Icons.person, title: 'My Profile'),
-          buildDrawerListItemsDivider(),
-          buildDrawerListItem(
+          const BuildDrawerListItem(
+              leadingIcon: Icons.person, title: 'My Profile'),
+          const BuildDrawerListItemsDivider(),
+          BuildDrawerListItem(
             leadingIcon: Icons.history,
             title: 'Places History',
             onTap: () {},
           ),
-          buildDrawerListItemsDivider(),
-          buildDrawerListItem(leadingIcon: Icons.settings, title: 'Settings'),
-          buildDrawerListItemsDivider(),
-          buildDrawerListItem(leadingIcon: Icons.help, title: 'Help'),
-          buildDrawerListItemsDivider(),
+          const BuildDrawerListItemsDivider(),
+          const BuildDrawerListItem(
+              leadingIcon: Icons.settings, title: 'Settings'),
+          const BuildDrawerListItemsDivider(),
+          const BuildDrawerListItem(leadingIcon: Icons.help, title: 'Help'),
+          const BuildDrawerListItemsDivider(),
         ],
       ),
     );
@@ -367,53 +432,77 @@ class CircularIndicator extends StatelessWidget {
   }
 }
 
-Widget buildDrawerHeader(context) {
-  return Column(
-    children: [
-      Container(
-        padding: const EdgeInsets.symmetric(vertical: 10, horizontal: 70),
-        decoration: BoxDecoration(
-          shape: BoxShape.rectangle,
-          color: Colors.orange[100],
+class BuildDrawerHeader extends StatelessWidget {
+  const BuildDrawerHeader({Key? key}) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return Column(
+      children: [
+        Container(
+          padding: const EdgeInsets.symmetric(vertical: 10, horizontal: 70),
+          decoration: BoxDecoration(
+            shape: BoxShape.rectangle,
+            color: Colors.orange[100],
+          ),
+          child: Image.asset(
+            'assets/images/image.jpg',
+            fit: BoxFit.cover,
+          ),
         ),
-        child: Image.asset(
-          'assets/images/image.jpg',
-          fit: BoxFit.cover,
+        const Text(
+          'Alaa Shoukri',
+          style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
         ),
-      ),
-      const Text(
-        'Alaa Shoukri',
-        style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
-      ),
-    ],
-  );
+      ],
+    );
+  }
 }
 
-Widget buildDrawerListItem(
-    {required IconData leadingIcon,
-    required String title,
-    Widget? trailing,
-    Function()? onTap,
-    Color? color}) {
-  return ListTile(
-    leading: Icon(
-      leadingIcon,
-      color: color ?? mainColor,
-    ),
-    title: Text(title),
-    trailing: trailing ??= const Icon(
-      Icons.arrow_right,
-      color: mainColor,
-    ),
-    onTap: onTap,
-  );
+class BuildDrawerListItem extends StatelessWidget {
+  final IconData leadingIcon;
+  final String? title;
+  final Widget? trailing;
+  final VoidCallback? onTap;
+  final Color? color;
+
+  const BuildDrawerListItem({
+    Key? key,
+    required this.leadingIcon,
+    this.title,
+    this.trailing,
+    this.onTap,
+    this.color,
+  }) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return ListTile(
+      leading: Icon(
+        leadingIcon,
+        color: color ?? mainColor,
+      ),
+      title: Text(title ?? ''),
+      trailing: trailing ??
+          const Icon(
+            Icons.arrow_right,
+            color: mainColor,
+          ),
+      onTap: onTap,
+    );
+  }
 }
 
-Widget buildDrawerListItemsDivider() {
-  return const Divider(
-    height: 0,
-    thickness: 1,
-    indent: 18,
-    endIndent: 24,
-  );
+class BuildDrawerListItemsDivider extends StatelessWidget {
+  const BuildDrawerListItemsDivider({Key? key}) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return const Divider(
+      height: 0,
+      thickness: 1,
+      indent: 18,
+      endIndent: 24,
+    );
+  }
 }

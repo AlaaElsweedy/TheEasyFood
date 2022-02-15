@@ -50,7 +50,7 @@ class LoginScreen extends StatelessWidget {
                   children: [
                     const BuildHeader(title: 'Login'),
                     sizedBox12,
-                    buildSecondHeader(title: 'Add your details to login'),
+                    const BuildSecondHeader(title: 'Add your details to login'),
                     sizedBox28,
                     DefaultTextFormField(
                       context: context,
@@ -101,9 +101,9 @@ class LoginScreen extends StatelessWidget {
                       onPressed: () {},
                     ),
                     sizedBox28,
-                    buildSecondHeader(title: 'Or Login With'),
+                    const BuildSecondHeader(title: 'Or Login With'),
                     sizedBox15,
-                    rawButton(
+                    RawButton(
                       buttonColor: Colors.blue,
                       image: 'assets/images/facebook.svg',
                       text: 'Login With Facebook',
@@ -112,7 +112,7 @@ class LoginScreen extends StatelessWidget {
                     sizedBox15,
                     BuildCondition(
                       condition: state is! CreateUserLoadingsState,
-                      builder: (context) => rawButton(
+                      builder: (context) => RawButton(
                         buttonColor: Colors.red,
                         text: 'Login With Google',
                         image: 'assets/images/google.svg',
@@ -128,7 +128,8 @@ class LoginScreen extends StatelessWidget {
                     Row(
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: [
-                        buildSecondHeader(title: 'Don\'t have an Account?'),
+                        const BuildSecondHeader(
+                            title: 'Don\'t have an Account?'),
                         DefaultTextButton(
                           child: 'Sign Up',
                           onPressed: () {

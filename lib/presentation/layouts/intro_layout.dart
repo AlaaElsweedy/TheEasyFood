@@ -34,7 +34,7 @@ class IntroLayout extends StatelessWidget {
                   ),
                 ),
                 const SizedBox(height: 6),
-                buildSecondHeader(title: 'FOOD DELIVERY'),
+                const BuildSecondHeader(title: 'FOOD DELIVERY'),
                 const SizedBox(height: 30),
                 const Padding(
                   padding: EdgeInsets.symmetric(horizontal: 30.0),

@@ -3,8 +3,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:talabat_app/business_logic/cubit/cubit.dart';
 import 'package:talabat_app/business_logic/cubit/states.dart';
-import 'package:talabat_app/data/models/cart_model.dart';
 import 'package:talabat_app/data/models/order_model.dart';
+import 'package:talabat_app/presentation/modules/home_screen.dart';
 import 'package:talabat_app/shared/components/components.dart';
 import 'package:talabat_app/shared/components/styles/colors.dart';
 import 'package:talabat_app/shared/constants.dart';
@@ -14,38 +14,90 @@ class OrdersScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(title: const Text('My Order')),
-      body: BlocBuilder<AppCubit, AppStates>(
-        builder: (context, state) {
-          var orders = AppCubit.get(context).orders;
+    return BlocBuilder<AppCubit, AppStates>(
+      builder: (context, state) {
+        var orders = AppCubit.get(context).orders;
+        var cubit = AppCubit.get(context);
+        // if (state is! GetOrdersSuccessState) {
+        //   return const CircularIndicator();
+        // }
 
-          return BuildCondition(
-            condition: orders.isNotEmpty,
-            builder: (context) => Padding(
-              padding: paddingAll,
-              child: Column(
+        return Scaffold(
+            appBar: AppBar(
+              title: Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
-                  Expanded(
-                    child: ListView.separated(
-                      itemCount: orders.length,
-                      itemBuilder: (context, index) => _BuildOrderListItem(
-                        order: orders[index],
-                      ),
-                      separatorBuilder: (context, index) => const Divider(
-                        thickness: 2,
-                      ),
-                    ),
-                  ),
-                  sizedBox20,
-                  DefaultButton(title: 'Checkout', onPressed: () {}),
+                  const Text('My Order'),
+                  orders.isEmpty
+                      ? Container()
+                      : InkWell(
+                          onTap: () => cubit.clearOrders(),
+                          child: Text(
+                            'Clear',
+                            style: TextStyle(
+                              color: Theme.of(context).errorColor,
+                            ),
+                          ),
+                        ),
                 ],
               ),
             ),
-            fallback: (context) => const CircularIndicator(),
-          );
-        },
-      ),
+            body: BuildCondition(
+              condition: orders.isNotEmpty,
+              builder: (context) => Padding(
+                padding: paddingAll,
+                child: Column(
+                  children: [
+                    Expanded(
+                      child: ListView.separated(
+                        itemCount: orders.length,
+                        itemBuilder: (context, index) => _BuildOrderListItem(
+                          order: orders[index],
+                        ),
+                        separatorBuilder: (context, index) => const Divider(
+                          thickness: 2,
+                        ),
+                      ),
+                    ),
+                    sizedBox15,
+                    TotalDeliveryPrice(
+                      title: 'Sub Total',
+                      price: cubit.getTotalOrdersPrice,
+                      fontSize: 15,
+                    ),
+                    sizedBox15,
+                    TotalDeliveryPrice(
+                      title: 'Delivery Cost',
+                      price: cubit.deliveryCost,
+                      fontSize: 15,
+                    ),
+                    sizedBox15,
+                    TotalDeliveryPrice(
+                      title: 'Total',
+                      price: cubit.getTotalOrdersPrice + cubit.deliveryCost,
+                    ),
+                    sizedBox20,
+                    DefaultButton(title: 'Checkout', onPressed: () {}),
+                  ],
+                ),
+              ),
+              fallback: (context) => Center(
+                child: Column(
+                  children: [
+                    Image.asset('assets/images/no_orders.gif'),
+                    sizedBox10,
+                    DefaultButton(
+                      title: 'Go Shopping',
+                      width: 150,
+                      onPressed: () {
+                        navigateTo(context, const HomeScreen());
+                      },
+                    ),
+                  ],
+                ),
+              ),
+            ));
+      },
     );
   }
 }
@@ -77,11 +129,12 @@ class _BuildOrderListItem extends StatelessWidget {
                 ),
               ],
             ),
-            sizedBox12,
+            sizedBox10,
             Container(
               padding: const EdgeInsets.all(8),
               color: textFieldColor,
               child: ListView(
+                physics: const NeverScrollableScrollPhysics(),
                 shrinkWrap: true,
                 children: order.cartItem
                     .map(

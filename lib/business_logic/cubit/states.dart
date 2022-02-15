@@ -107,6 +107,10 @@ class AddOrderctErrorState extends AppStates {
 
 class GetOrdersSuccessState extends AppStates {}
 
+class GetOrdersLoadingState extends AppStates {}
+
 class GetOrdersErrorState extends AppStates {}
 
 class ClearCart extends AppStates {}
+
+class ClearOrders extends AppStates {}

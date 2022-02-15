@@ -93,7 +93,7 @@ Widget buildMenuItem({
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     BuildHeader(title: title),
-                    buildSecondHeader(
+                    BuildSecondHeader(
                       title: '$quantity Items',
                       fontSize: 12,
                     ),

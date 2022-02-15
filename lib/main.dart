@@ -62,10 +62,12 @@ class MyApp extends StatelessWidget {
     return MultiBlocProvider(
       providers: [
         BlocProvider<AppCubit>(
-            create: (BuildContext context) => AppCubit()
-              ..getCategories()
-              ..getMeals()
-              ..getRestaurants()),
+          create: (BuildContext context) => AppCubit()
+            ..getCategories()
+            ..getMeals()
+            ..getRestaurants()
+            ..getCartProducts(),
+        ),
         BlocProvider(
           create: (context) => MapsCubit(MapRepository(PlacesWebservices())),
         ),

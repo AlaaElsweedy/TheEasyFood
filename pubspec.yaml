@@ -24,6 +24,7 @@ dependencies:
   flutter_lints: ^1.0.0
   flutter_svg: ^1.0.0
   font_awesome_flutter: ^9.2.0
+  geocoding: ^2.0.2
   geolocator: ^8.0.5
   google_maps_flutter: ^2.1.1
   google_sign_in: ^5.2.1

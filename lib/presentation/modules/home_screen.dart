@@ -146,7 +146,7 @@ class PopularRestaurantItem extends StatelessWidget {
         sizedBox10,
         Padding(
           padding: paddingHorizontal,
-          child: customTitle(title: '${restaurentModel!.name}'),
+          child: CustomTitle(title: '${restaurentModel!.name}'),
         ),
       ],
     );
@@ -176,7 +176,7 @@ class MostPopular extends StatelessWidget {
                 image: mealModel!.image,
                 duration: mealModel!.duration,
                 isFavorite: mealModel!.isFavorite,
-                inCart: mealModel!.inCart,
+                //inCart: mealModel!.inCart,
                 category: mealModel!.category,
               )),
           child: Column(
@@ -196,7 +196,7 @@ class MostPopular extends StatelessWidget {
               sizedBox10,
               Padding(
                 padding: paddingHorizontal,
-                child: customTitle(title: '${mealModel!.title}'),
+                child: CustomTitle(title: '${mealModel!.title}'),
               ),
             ],
           ),
@@ -257,7 +257,7 @@ class CategoryItem extends StatelessWidget {
           ),
         ),
         const SizedBox(height: 8),
-        customTitle(
+        CustomTitle(
           title: '${category.name}',
           fontSize: 15,
         )

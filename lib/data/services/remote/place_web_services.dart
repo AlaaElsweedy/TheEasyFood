@@ -65,8 +65,6 @@ class PlacesWebservices {
           'key': googleApiKey,
         },
       );
-      print("Omar I'm testing directions");
-      print(response.data);
       return response.data;
     } catch (error) {
       return Future.error("Place location error : ",

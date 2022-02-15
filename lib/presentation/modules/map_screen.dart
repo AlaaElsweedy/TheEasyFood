@@ -2,11 +2,13 @@ import 'dart:async';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:geocoding/geocoding.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:material_floating_search_bar/material_floating_search_bar.dart';
 import 'package:talabat_app/business_logic/maps/maps_cubit.dart';
-import 'package:talabat_app/data/models/place_suggestation_model.dart';
+import 'package:talabat_app/data/models/map/place_details_model.dart';
+import 'package:talabat_app/data/models/map/place_suggestation_model.dart';
 import 'package:talabat_app/helpers/location_helper.dart';
 import 'package:talabat_app/shared/components/components.dart';
 import 'package:talabat_app/shared/components/styles/colors.dart';
@@ -25,6 +27,14 @@ class _MapScreenState extends State<MapScreen> {
   static Position? position;
   final Completer<GoogleMapController> _mapController = Completer();
 
+  // these variables for getPlaceLocation
+  Set<Marker> markers = {};
+  late PlaceSuggestion placeSuggestion;
+  late Place selectedPlace;
+  late Marker searchedPlaceMarker;
+  late Marker currentLocationMarker;
+  late CameraPosition goToSearchedForPlace;
+
   static final CameraPosition _myCurrentLocationCameraPosition = CameraPosition(
     bearing: 0.0, //camera angels (view)
     target: LatLng(position!.latitude, position!.longitude),
@@ -32,18 +42,16 @@ class _MapScreenState extends State<MapScreen> {
     zoom: 17,
   );
 
-  Future getMyCurrentLocation() async {
-    try {
-      position = await LocationHelper.getCurrentLocation().whenComplete(() {
-        setState(() {});
-      });
-      //print('Address is $position /////////////');
-    } catch (e) {
-      ScaffoldMessenger.of(context).showSnackBar(SnackBar(
-        content: Text(e.toString()),
-      ));
-      Navigator.pop(context);
-    }
+  void buildCameraNewPosition() {
+    goToSearchedForPlace = CameraPosition(
+      bearing: 0.0,
+      tilt: 0.0,
+      target: LatLng(
+        selectedPlace.result.geometry.location.lat,
+        selectedPlace.result.geometry.location.lng,
+      ),
+      zoom: 13,
+    );
   }
 
   Widget buildMap() {
@@ -52,6 +60,7 @@ class _MapScreenState extends State<MapScreen> {
       myLocationEnabled: true,
       zoomControlsEnabled: false,
       myLocationButtonEnabled: false,
+      markers: markers,
       initialCameraPosition: _myCurrentLocationCameraPosition,
       onMapCreated: (GoogleMapController controller) {
         _mapController.complete(controller);
@@ -109,7 +118,7 @@ class _MapScreenState extends State<MapScreen> {
             mainAxisSize: MainAxisSize.min,
             children: [
               buildSuggestionsBloc(),
-              // buildSelectedPlaceLocationBloc(),
+              buildSelectedPlaceLocationBloc(),
               // buildDiretionsBloc(),
             ],
           ),
@@ -141,14 +150,71 @@ class _MapScreenState extends State<MapScreen> {
     );
   }
 
+  Widget buildSelectedPlaceLocationBloc() {
+    return BlocListener<MapsCubit, MapsState>(
+      listener: (context, state) {
+        if (state is PlaceLocationLoaded) {
+          selectedPlace = state.place;
+
+          goToMySearchedForLocation();
+          //getDirections();
+        }
+      },
+      child: Container(),
+    );
+  }
+
+  Future<void> goToMySearchedForLocation() async {
+    buildCameraNewPosition();
+    final GoogleMapController controller = await _mapController.future;
+    controller
+        .animateCamera(CameraUpdate.newCameraPosition(goToSearchedForPlace));
+    buildSearchedPlaceMarker();
+  }
+
+  void buildSearchedPlaceMarker() {
+    searchedPlaceMarker = Marker(
+      position: goToSearchedForPlace.target,
+      markerId: const MarkerId('1'),
+      onTap: () {
+        buildCurrentLocationMarker();
+        // show time and distance
+        setState(() {
+          // isSearchedPlaceMarkerClicked = true;
+          // isTimeAndDistanceVisible = true;
+        });
+      },
+      infoWindow: InfoWindow(title: placeSuggestion.description),
+      icon: BitmapDescriptor.defaultMarkerWithHue(BitmapDescriptor.hueRed),
+    );
+
+    addMarkerToMarkersAndUpdateUI(searchedPlaceMarker);
+  }
+
+  void buildCurrentLocationMarker() {
+    currentLocationMarker = Marker(
+      position: LatLng(position!.latitude, position!.longitude),
+      markerId: const MarkerId('2'),
+      infoWindow: const InfoWindow(title: "Your current Location"),
+      icon: BitmapDescriptor.defaultMarkerWithHue(BitmapDescriptor.hueBlue),
+    );
+    addMarkerToMarkersAndUpdateUI(currentLocationMarker);
+  }
+
+  void addMarkerToMarkersAndUpdateUI(Marker marker) {
+    setState(() {
+      markers.add(marker);
+    });
+  }
+
   Widget buildPlacesList() {
     return ListView.builder(
         itemBuilder: (ctx, index) {
           return InkWell(
             onTap: () async {
-              //placeSuggestion = places[index];
+              placeSuggestion = places[index];
               controller.close();
-              // getSelectedPlaceLocation();
+              getSelectedPlaceLocation();
               // polylinePoints.clear();
               // removeAllMarkersAndUpdateUI();
             },
@@ -160,6 +226,33 @@ class _MapScreenState extends State<MapScreen> {
         itemCount: places.length,
         shrinkWrap: true,
         physics: const ClampingScrollPhysics());
+  }
+
+  void getSelectedPlaceLocation() {
+    final sessionToken = const Uuid().v4();
+    BlocProvider.of<MapsCubit>(context).emitPlaceLocation(
+      placeSuggestion.placeId,
+      sessionToken,
+    );
+  }
+
+  Future getMyCurrentLocation() async {
+    try {
+      position = await LocationHelper.getCurrentLocation().whenComplete(() {
+        setState(() {});
+      });
+      List<Placemark> placemarks = await placemarkFromCoordinates(
+        position!.latitude,
+        position!.longitude,
+      );
+
+      //print('Address is ${placemarks[0].street} /////////////');
+    } catch (e) {
+      ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+        content: Text(e.toString()),
+      ));
+      Navigator.pop(context);
+    }
   }
 
   // @override

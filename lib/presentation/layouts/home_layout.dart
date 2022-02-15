@@ -64,7 +64,7 @@ class HomeLayout extends StatelessWidget {
                     const SizedBox(height: 4),
                     Padding(
                       padding: const EdgeInsets.symmetric(horizontal: 8),
-                      child: buildSecondHeader(title: titles[index]),
+                      child: BuildSecondHeader(title: titles[index]),
                     )
                   ],
                 );
