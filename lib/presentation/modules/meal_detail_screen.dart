@@ -1,10 +1,10 @@
 import 'package:buildcondition/buildcondition.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:talabat_app/business_logic/cubit/cubit.dart';
-import 'package:talabat_app/business_logic/cubit/states.dart';
-import 'package:talabat_app/shared/components/components.dart';
-import 'package:talabat_app/shared/constants.dart';
+import '../../business_logic/cubit/cubit.dart';
+import '../../business_logic/cubit/states.dart';
+import '../../shared/components/components.dart';
+import '../../shared/constants.dart';
 import 'cart_screen.dart';
 
 class MealDetailScreen extends StatelessWidget {
@@ -36,7 +36,6 @@ class MealDetailScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     var size = MediaQuery.of(context).size.height;
-    var cubit = AppCubit.get(context);
 
     return Scaffold(
       extendBodyBehindAppBar: true,
@@ -47,7 +46,7 @@ class MealDetailScreen extends StatelessWidget {
         actions: [
           IconButton(
             onPressed: () {
-              navigateTo(context, CartScreen());
+              navigateTo(context, const CartScreen());
             },
             icon: const Icon(
               Icons.shopping_cart,
@@ -103,17 +102,11 @@ class MealDetailScreen extends StatelessWidget {
                   const Spacer(),
                   BlocBuilder<AppCubit, AppStates>(
                     builder: (context, state) {
-                      // if (state is ClearCart) {
-                      //   AppCubit.get(context).updateCart(
-                      //     mealId: mealId!,
-                      //     inCart: false,
-                      //     //inCart: inCart! ? false : inCart!,
-                      //   );
-                      // }
-
                       return BuildCondition(
                         condition: state is! AddProductLoadingState,
                         builder: (context) {
+                          var cubit = AppCubit.get(context);
+
                           return cubit.cart.contains(mealId)
                               ? const Center(
                                   child: Text('In Cart!'),
@@ -141,6 +134,8 @@ class MealDetailScreen extends StatelessWidget {
           ),
           BlocBuilder<AppCubit, AppStates>(
             builder: (context, state) {
+              var cubit = AppCubit.get(context);
+
               return Positioned(
                 right: 20,
                 top: size * 0.33,
@@ -150,17 +145,21 @@ class MealDetailScreen extends StatelessWidget {
                     backgroundColor: Colors.white,
                     child: IconButton(
                       onPressed: () {
-                        cubit.favorieProduct(mealId: mealId!);
+                        cubit.favorites.contains(mealId)
+                            ? cubit.removeFavoriteProduct(mealId!)
+                            : cubit.changeFavoriteProductState(
+                                productId: mealId!,
+                                title: title!,
+                                image: image!,
+                                price: price,
+                              );
                       },
-                      icon: cubit.favorites[mealId]!
-                          ? const Icon(
-                              Icons.favorite,
-                              color: Colors.red,
-                            )
-                          : const Icon(
-                              Icons.favorite_border,
-                              color: Colors.red,
-                            ),
+                      icon: Icon(
+                        cubit.favorites.contains(mealId)
+                            ? Icons.favorite_outlined
+                            : Icons.favorite_border,
+                        color: Colors.red,
+                      ),
                     ),
                   ),
                 ),

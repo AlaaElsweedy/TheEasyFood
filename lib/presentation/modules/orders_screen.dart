@@ -1,13 +1,14 @@
 import 'package:buildcondition/buildcondition.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:talabat_app/business_logic/cubit/cubit.dart';
-import 'package:talabat_app/business_logic/cubit/states.dart';
-import 'package:talabat_app/data/models/order_model.dart';
-import 'package:talabat_app/presentation/modules/home_screen.dart';
-import 'package:talabat_app/shared/components/components.dart';
-import 'package:talabat_app/shared/components/styles/colors.dart';
-import 'package:talabat_app/shared/constants.dart';
+import 'package:talabat_app/presentation/modules/checkout_screen.dart';
+import '../../business_logic/cubit/cubit.dart';
+import '../../business_logic/cubit/states.dart';
+import '../../data/models/order_model.dart';
+import 'home_screen.dart';
+import '../../shared/components/components.dart';
+import '../../shared/components/styles/colors.dart';
+import '../../shared/constants.dart';
 
 class OrdersScreen extends StatelessWidget {
   const OrdersScreen({Key? key}) : super(key: key);
@@ -18,9 +19,14 @@ class OrdersScreen extends StatelessWidget {
       builder: (context, state) {
         var orders = AppCubit.get(context).orders;
         var cubit = AppCubit.get(context);
-        // if (state is! GetOrdersSuccessState) {
-        //   return const CircularIndicator();
-        // }
+
+        double subTotal = cubit.getSubTotalOrdersPrice;
+        double deliveryCost = cubit.deliveryCost;
+        double total = subTotal + deliveryCost;
+
+        if (state is! GetOrdersSuccessState) {
+          return const CircularIndicator();
+        }
 
         return Scaffold(
             appBar: AppBar(
@@ -62,22 +68,38 @@ class OrdersScreen extends StatelessWidget {
                     sizedBox15,
                     TotalDeliveryPrice(
                       title: 'Sub Total',
-                      price: cubit.getTotalOrdersPrice,
+                      price: subTotal,
                       fontSize: 15,
                     ),
                     sizedBox15,
                     TotalDeliveryPrice(
                       title: 'Delivery Cost',
-                      price: cubit.deliveryCost,
+                      price: deliveryCost,
                       fontSize: 15,
                     ),
                     sizedBox15,
                     TotalDeliveryPrice(
                       title: 'Total',
-                      price: cubit.getTotalOrdersPrice + cubit.deliveryCost,
+                      price: total,
                     ),
                     sizedBox20,
-                    DefaultButton(title: 'Checkout', onPressed: () {}),
+                    Padding(
+                      padding: const EdgeInsets.only(bottom: 25),
+                      child: DefaultButton(
+                        title: 'Checkout',
+                        onPressed: () {
+                          navigateTo(
+                            context,
+                            CheckoutScreen(
+                              deliveryCost: deliveryCost,
+                              subTotal: subTotal,
+                              total: total,
+                            ),
+                          );
+                          cubit.clearOrders();
+                        },
+                      ),
+                    ),
                   ],
                 ),
               ),

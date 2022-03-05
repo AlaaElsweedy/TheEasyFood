@@ -1,17 +1,16 @@
 import 'package:buildcondition/buildcondition.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:talabat_app/business_logic/cubit/cubit.dart';
-import 'package:talabat_app/business_logic/cubit/states.dart';
-import 'package:talabat_app/data/models/cart_model.dart';
-import 'package:talabat_app/data/models/meal_model.dart';
-import 'package:talabat_app/shared/components/components.dart';
-import 'package:talabat_app/shared/components/styles/colors.dart';
-import 'package:talabat_app/shared/constants.dart';
+import '../../business_logic/cubit/cubit.dart';
+import '../../business_logic/cubit/states.dart';
+import '../../data/models/cart_model.dart';
+import '../../shared/components/components.dart';
+import '../../shared/components/styles/colors.dart';
+import '../../shared/constants.dart';
 
 // ignore: must_be_immutable
 class CartScreen extends StatelessWidget {
-  CartScreen({Key? key}) : super(key: key);
+  const CartScreen({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -20,7 +19,7 @@ class CartScreen extends StatelessWidget {
       builder: (context, state) {
         var cubit = AppCubit.get(context);
         var totalPrice = cubit.getTotal;
-        var cart = AppCubit.get(context).cartList;
+        var cart = AppCubit.get(context).cartProducts;
 
         return Scaffold(
           appBar: AppBar(

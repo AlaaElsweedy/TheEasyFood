@@ -1,11 +1,11 @@
 import 'package:buildcondition/buildcondition.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:talabat_app/business_logic/cubit/cubit.dart';
-import 'package:talabat_app/business_logic/cubit/states.dart';
-import 'package:talabat_app/shared/components/components.dart';
-import 'package:talabat_app/shared/components/styles/colors.dart';
-import 'package:talabat_app/shared/constants.dart';
+import '../../business_logic/cubit/cubit.dart';
+import '../../business_logic/cubit/states.dart';
+import '../../shared/components/components.dart';
+import '../../shared/components/styles/colors.dart';
+import '../../shared/constants.dart';
 
 class ProfileScreen extends StatelessWidget {
   final nameController = TextEditingController();

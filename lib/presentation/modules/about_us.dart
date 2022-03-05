@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
-import 'package:talabat_app/shared/constants.dart';
+import '../../shared/constants.dart';
 import 'package:url_launcher/url_launcher.dart';
 
 class AboutUs extends StatelessWidget {

@@ -1,7 +1,7 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:talabat_app/data/models/user_model.dart';
+import '../../../../data/models/user_model.dart';
 import 'sign_up_states.dart';
 
 class SignUpCubit extends Cubit<SignUpStates> {

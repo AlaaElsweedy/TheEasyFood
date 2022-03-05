@@ -1,13 +1,13 @@
 import 'package:buildcondition/buildcondition.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:talabat_app/business_logic/cubit/cubit.dart';
-import 'package:talabat_app/business_logic/cubit/states.dart';
-import 'package:talabat_app/data/models/category_model.dart';
-import 'package:talabat_app/data/models/meal_model.dart';
-import 'package:talabat_app/data/models/restaurant_model.dart';
-import 'package:talabat_app/shared/components/components.dart';
-import 'package:talabat_app/shared/constants.dart';
+import '../../business_logic/cubit/cubit.dart';
+import '../../business_logic/cubit/states.dart';
+import '../../data/models/category_model.dart';
+import '../../data/models/meal_model.dart';
+import '../../data/models/restaurant_model.dart';
+import '../../shared/components/components.dart';
+import '../../shared/constants.dart';
 import 'category_screen.dart';
 import 'meal_detail_screen.dart';
 
@@ -176,7 +176,6 @@ class MostPopular extends StatelessWidget {
                 image: mealModel!.image,
                 duration: mealModel!.duration,
                 isFavorite: mealModel!.isFavorite,
-                //inCart: mealModel!.inCart,
                 category: mealModel!.category,
               )),
           child: Column(

@@ -7,8 +7,6 @@ class AppBottomNavBarState extends AppStates {}
 class SignOut extends AppStates {}
 
 //Get User
-class GetUserLoadingsState extends AppStates {}
-
 class GetUserSuccessState extends AppStates {}
 
 class GetUserErrorState extends AppStates {
@@ -17,9 +15,7 @@ class GetUserErrorState extends AppStates {
   GetUserErrorState(this.error);
 }
 
-//Get Gategory
-class GetCategoryLoadingsState extends AppStates {}
-
+//Get Category
 class GetCategorySuccessState extends AppStates {}
 
 class GetCategoryErrorState extends AppStates {
@@ -28,9 +24,16 @@ class GetCategoryErrorState extends AppStates {
   GetCategoryErrorState(this.error);
 }
 
-//get meal
-class GetMealLoadingsState extends AppStates {}
+// get restaurants
+class GetRestaurantsSuccessState extends AppStates {}
 
+class GetRestaurantsErrorState extends AppStates {
+  final String error;
+
+  GetRestaurantsErrorState(this.error);
+}
+
+//get meal
 class GetMealSuccessState extends AppStates {}
 
 class GetMealErrorState extends AppStates {
@@ -39,15 +42,19 @@ class GetMealErrorState extends AppStates {
   GetMealErrorState(this.error);
 }
 
-// get restaurents
-class GetRestaurentsSuccessState extends AppStates {}
+class FavoriteProductSuccessState extends AppStates {}
 
-class GetRestaurentsErrorState extends AppStates {
+class FavoriteProductErrorState extends AppStates {
   final String error;
 
-  GetRestaurentsErrorState(this.error);
+  FavoriteProductErrorState(this.error);
 }
 
+class GetFavoriteProductsSuccessState extends AppStates {}
+
+class GetFavoriteProductsErrorState extends AppStates {}
+
+// profile image
 class UpdateProfileLoadingsState extends AppStates {}
 
 class UpdateProfileSuccessState extends AppStates {}
@@ -58,7 +65,6 @@ class UpdateProfileErrorState extends AppStates {
   UpdateProfileErrorState(this.error);
 }
 
-// profile image
 class ProfileImageSuccessState extends AppStates {}
 
 class ProfileImageErrorState extends AppStates {}
@@ -87,22 +93,17 @@ class GetProductErrorState extends AppStates {
 
 class UpdateProductErrorState extends AppStates {}
 
-class FavoriteProductSuccessState extends AppStates {}
-
-class FavoriteProductErrorState extends AppStates {
-  final String error;
-
-  FavoriteProductErrorState(this.error);
-}
+class ClearCart extends AppStates {}
 
 class Increment extends AppStates {}
 
 class Decrement extends AppStates {}
 
-class AddOrderctErrorState extends AppStates {
+// orders
+class AddOrdersErrorState extends AppStates {
   final String error;
 
-  AddOrderctErrorState(this.error);
+  AddOrdersErrorState(this.error);
 }
 
 class GetOrdersSuccessState extends AppStates {}
@@ -111,6 +112,10 @@ class GetOrdersLoadingState extends AppStates {}
 
 class GetOrdersErrorState extends AppStates {}
 
-class ClearCart extends AppStates {}
-
 class ClearOrders extends AppStates {}
+
+class AddOrdersHistoryErrorState extends AppStates {}
+
+class GetOrdersHistoryErrorState extends AppStates {}
+
+class GetOrdersHistorySuccessState extends AppStates {}

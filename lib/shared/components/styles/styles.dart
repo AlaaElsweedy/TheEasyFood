@@ -3,7 +3,7 @@ import 'package:flutter/services.dart';
 import 'colors.dart';
 
 ThemeData lightTheme = ThemeData(
-  fontFamily: 'Jannah',
+  fontFamily: 'Metropolis',
   primarySwatch: mainColor,
   appBarTheme: const AppBarTheme(
     elevation: 0,

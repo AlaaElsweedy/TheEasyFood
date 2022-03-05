@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:talabat_app/data/models/meal_model.dart';
-import 'package:talabat_app/shared/components/styles/colors.dart';
-import 'package:talabat_app/shared/constants.dart';
+import '../../data/models/meal_model.dart';
+import '../../shared/components/styles/colors.dart';
+import '../../shared/constants.dart';
 
 class CategoryScreen extends StatelessWidget {
   final String? categoryName;

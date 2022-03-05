@@ -17,7 +17,7 @@ const MaterialColor mainColor = MaterialColor(
 );
 
 const Color primaryFontColor = Color(0xff4a4b4d);
-Color secondaryFontColor = const Color(0xff7c7d7e);
+const Color secondaryFontColor = Color(0xff7c7d7e);
 const Color placeHolderColor = Color(0xffb6b7b7);
-Color textFieldColor = const Color(0xffF2F2F2);
+const Color textFieldColor = Color(0xffF2F2F2);
 const Color backgroundColor = Color(0xffffffff);

@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:talabat_app/shared/components/components.dart';
-import 'package:talabat_app/shared/components/styles/colors.dart';
-import 'package:talabat_app/shared/constants.dart';
+import '../../shared/components/components.dart';
+import '../../shared/components/styles/colors.dart';
+import '../../shared/constants.dart';
 import '../modules/login/login_screen.dart';
 import '../modules/sign_up/sign_up_screen.dart';
 

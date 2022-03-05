@@ -1,7 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
-import 'package:talabat_app/data/models/map/place_suggestation_model.dart';
-import 'package:talabat_app/presentation/modules/cart_screen.dart';
+import '../../data/models/map/place_directions_model.dart';
+import '../../data/models/map/place_suggestion_model.dart';
+import '../../presentation/modules/cart_screen.dart';
 import 'styles/colors.dart';
 
 class DefaultTextFormField extends StatelessWidget {
@@ -32,13 +33,13 @@ class DefaultTextFormField extends StatelessWidget {
         hintText: hintText,
         focusedBorder: OutlineInputBorder(
           borderRadius: BorderRadius.circular(30),
-          borderSide: BorderSide(
+          borderSide: const BorderSide(
             color: textFieldColor,
           ),
         ),
         enabledBorder: OutlineInputBorder(
           borderRadius: BorderRadius.circular(30),
-          borderSide: BorderSide(
+          borderSide: const BorderSide(
             color: textFieldColor,
           ),
         ),
@@ -319,7 +320,7 @@ class DefaultAppBar extends StatelessWidget implements PreferredSizeWidget {
         IconButton(
           icon: const Icon(Icons.shopping_cart),
           onPressed: () {
-            navigateTo(context, CartScreen());
+            navigateTo(context, const CartScreen());
           },
         )
       ],
@@ -347,7 +348,9 @@ class MyDrawer extends StatelessWidget {
             ),
           ),
           const BuildDrawerListItem(
-              leadingIcon: Icons.person, title: 'My Profile'),
+            leadingIcon: Icons.person,
+            title: 'My Profile',
+          ),
           const BuildDrawerListItemsDivider(),
           BuildDrawerListItem(
             leadingIcon: Icons.history,
@@ -356,7 +359,9 @@ class MyDrawer extends StatelessWidget {
           ),
           const BuildDrawerListItemsDivider(),
           const BuildDrawerListItem(
-              leadingIcon: Icons.settings, title: 'Settings'),
+            leadingIcon: Icons.settings,
+            title: 'Settings',
+          ),
           const BuildDrawerListItemsDivider(),
           const BuildDrawerListItem(leadingIcon: Icons.help, title: 'Help'),
           const BuildDrawerListItemsDivider(),
@@ -503,6 +508,100 @@ class BuildDrawerListItemsDivider extends StatelessWidget {
       thickness: 1,
       indent: 18,
       endIndent: 24,
+    );
+  }
+}
+
+class DistanceAndTime extends StatelessWidget {
+  final PlaceDirections? placeDirections;
+  final bool isTimeAndDistanceVisible;
+
+  const DistanceAndTime(
+      {Key? key, this.placeDirections, required this.isTimeAndDistanceVisible})
+      : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return Visibility(
+      visible: isTimeAndDistanceVisible,
+      child: Positioned(
+        top: 0,
+        bottom: 570,
+        left: 0,
+        right: 0,
+        child: Row(
+          children: [
+            Flexible(
+              flex: 1,
+              child: Card(
+                elevation: 6,
+                shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(8),
+                ),
+                margin: const EdgeInsets.fromLTRB(20, 50, 20, 0),
+                color: Colors.white,
+                child: ListTile(
+                  dense: true,
+                  horizontalTitleGap: 0,
+                  leading: const Icon(
+                    Icons.access_time_filled,
+                    color: mainColor,
+                    size: 30,
+                  ),
+                  title: Text(
+                    placeDirections!.totalDuration,
+                    style: const TextStyle(color: Colors.black, fontSize: 16),
+                    overflow: TextOverflow.ellipsis,
+                    maxLines: 1,
+                  ),
+                ),
+              ),
+            ),
+            const SizedBox(
+              width: 30,
+            ),
+            Flexible(
+              flex: 1,
+              child: Card(
+                elevation: 6,
+                shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(8),
+                ),
+                margin: const EdgeInsets.fromLTRB(20, 50, 20, 0),
+                color: Colors.white,
+                child: ListTile(
+                  dense: true,
+                  horizontalTitleGap: 0,
+                  leading: const Icon(
+                    Icons.directions_car_filled,
+                    color: mainColor,
+                    size: 30,
+                  ),
+                  title: Text(
+                    placeDirections!.totalDistance,
+                    style: const TextStyle(color: Colors.black, fontSize: 16),
+                    overflow: TextOverflow.ellipsis,
+                    maxLines: 1,
+                  ),
+                ),
+              ),
+            ),
+          ],
+        ),
+      ),
+    );
+  }
+}
+
+class MyDivider extends StatelessWidget {
+  const MyDivider({Key? key}) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      width: double.infinity,
+      height: 1.0,
+      color: Colors.grey[300],
     );
   }
 }

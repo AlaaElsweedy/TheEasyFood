@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:smooth_page_indicator/smooth_page_indicator.dart';
-import 'package:talabat_app/data/services/local/cache_helper.dart';
-import 'package:talabat_app/shared/components/components.dart';
-import 'package:talabat_app/shared/components/styles/colors.dart';
-import 'package:talabat_app/shared/constants.dart';
+import '../../helpers/cache_helper.dart';
+import '../../shared/components/components.dart';
+import '../../shared/components/styles/colors.dart';
+import '../../shared/constants.dart';
 import '../layouts/intro_layout.dart';
 
 class OnBoardingScreen extends StatelessWidget {

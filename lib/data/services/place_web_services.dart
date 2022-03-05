@@ -1,6 +1,6 @@
 import 'package:dio/dio.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
-import 'package:talabat_app/shared/constants.dart';
+import '../../shared/constants.dart';
 
 class PlacesWebservices {
   late Dio dio;
@@ -31,6 +31,8 @@ class PlacesWebservices {
       );
       return response.data['predictions'];
     } catch (error) {
+      // ignore: avoid_print
+      print('There is an error');
       return [];
     }
   }

@@ -1,8 +1,10 @@
-import 'package:bloc/bloc.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:meta/meta.dart';
-import 'package:talabat_app/data/models/map/place_details_model.dart';
-import 'package:talabat_app/data/models/map/place_suggestation_model.dart';
-import 'package:talabat_app/data/repository/map_repository.dart';
+import '../../data/models/map/place_details_model.dart';
+import '../../data/models/map/place_directions_model.dart';
+import '../../data/models/map/place_suggestion_model.dart';
+import '../../data/repository/map_repository.dart';
 
 part 'maps_state.dart';
 
@@ -28,9 +30,9 @@ class MapsCubit extends Cubit<MapsState> {
     });
   }
 
-  // void emitPlaceDirections(LatLng origin, LatLng destination) {
-  //   mapRepository.getDirections(origin, destination).then((directions) {
-  //     emit(DirectionsLoaded(directions));
-  //   });
-  // }
+  void emitPlaceDirections(LatLng origin, LatLng destination) {
+    mapRepository.getDirections(origin, destination).then((directions) {
+      emit(DirectionsLoaded(directions));
+    });
+  }
 }

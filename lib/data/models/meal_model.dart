@@ -8,10 +8,6 @@ class MealModel {
   String? image;
   String? duration;
   bool? isFavorite;
-  //bool? inCart;
-  // bool? isGlutenFree;
-  // bool? isLactoseFree;
-  // bool? isVegetarian;
 
   MealModel({
     required this.mealId,
@@ -23,10 +19,6 @@ class MealModel {
     required this.image,
     required this.duration,
     required this.isFavorite,
-    //required this.inCart,
-    // required this.isGlutenFree,
-    // required this.isLactoseFree,
-    // required this.isVegetarian,
   });
 
   MealModel.fromJson(Map<String, dynamic> json) {
@@ -39,10 +31,6 @@ class MealModel {
     image = json['image'];
     duration = json['duration'];
     isFavorite = json['isFavorite'];
-    //inCart = json['inCart'];
-    // isGlutenFree = json['isGlutenFree'];
-    // isLactoseFree = json['isLactoseFree'];
-    // isVegetarian = json['isVegetarian'];
   }
 
   Map<String, dynamic> toMap() {
@@ -52,15 +40,10 @@ class MealModel {
       'price': price,
       'description': description,
       //'quantity': quantity,
-
       'category': category,
       'image': image,
       'duration': duration,
       'isFavorite': isFavorite,
-      //'inCart': inCart,
-      // 'isGlutenFree': isGlutenFree,
-      // 'isLactoseFree': isLactoseFree,
-      // 'isVegetarian': isVegetarian,
     };
   }
 }

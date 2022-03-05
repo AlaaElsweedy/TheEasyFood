@@ -31,20 +31,3 @@ class OrderModel {
     };
   }
 }
-
-// class DataModel {
-//   late int mealId;
-//   late String name;
-//   late String image;
-//   late dynamic price;
-//   late String title;
-//   late int quantity;
-
-//   DataModel.fromJson(Map<String, dynamic> json) {
-//     title = json['title'];
-//     image = json['image'];
-//     price = json['price'];
-//     mealId = json['mealId'];
-//     quantity = json['quantity'];
-//   }
-// }

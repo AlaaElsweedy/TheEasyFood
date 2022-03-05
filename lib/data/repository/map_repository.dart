@@ -1,6 +1,8 @@
-import 'package:talabat_app/data/models/map/place_details_model.dart';
-import 'package:talabat_app/data/models/map/place_suggestation_model.dart';
-import 'package:talabat_app/data/services/remote/place_web_services.dart';
+import 'package:google_maps_flutter/google_maps_flutter.dart';
+import '../models/map/place_details_model.dart';
+import '../models/map/place_directions_model.dart';
+import '../models/map/place_suggestion_model.dart';
+import '../services/place_web_services.dart';
 
 class MapRepository {
   final PlacesWebservices placesWebservices;
@@ -25,5 +27,14 @@ class MapRepository {
     final place =
         await placesWebservices.getPlaceLocation(placeId, sessionToken);
     return Place.fromJson(place);
+  }
+
+  Future<PlaceDirections> getDirections(
+    LatLng origin,
+    LatLng destination,
+  ) async {
+    final directions =
+        await placesWebservices.getDirections(origin, destination);
+    return PlaceDirections.fromJson(directions);
   }
 }

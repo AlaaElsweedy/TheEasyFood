@@ -1,10 +1,10 @@
 import 'package:animated_bottom_navigation_bar/animated_bottom_navigation_bar.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:talabat_app/business_logic/cubit/cubit.dart';
-import 'package:talabat_app/business_logic/cubit/states.dart';
-import 'package:talabat_app/shared/components/components.dart';
-import 'package:talabat_app/shared/components/styles/colors.dart';
+import '../../business_logic/cubit/cubit.dart';
+import '../../business_logic/cubit/states.dart';
+import '../../shared/components/components.dart';
+import '../../shared/components/styles/colors.dart';
 import '../modules/home_screen.dart';
 
 class HomeLayout extends StatelessWidget {
@@ -41,7 +41,10 @@ class HomeLayout extends StatelessWidget {
                 size: 40,
               ),
               onPressed: () {
-                navigateTo(context, const HomeScreen());
+                navigateTo(
+                  context,
+                  const HomeScreen(),
+                );
               },
             ),
             floatingActionButtonLocation:

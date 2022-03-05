@@ -2,17 +2,17 @@ import 'package:flutter/material.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:talabat_app/business_logic/cubit/cubit.dart';
-import 'package:talabat_app/business_logic/maps/maps_cubit.dart';
-import 'package:talabat_app/data/repository/map_repository.dart';
-import 'package:talabat_app/data/services/local/cache_helper.dart';
-import 'package:talabat_app/data/services/remote/place_web_services.dart';
-import 'package:talabat_app/presentation/layouts/home_layout.dart';
-import 'package:talabat_app/presentation/modules/login/login_screen.dart';
-import 'package:talabat_app/presentation/modules/on_boarding_screen.dart';
-import 'package:talabat_app/shared/bloc_observer.dart';
-import 'package:talabat_app/shared/components/styles/styles.dart';
-import 'package:talabat_app/shared/constants.dart';
+import 'business_logic/cubit/cubit.dart';
+import 'business_logic/maps/maps_cubit.dart';
+import 'data/repository/map_repository.dart';
+import 'data/services/place_web_services.dart';
+import 'helpers/cache_helper.dart';
+import 'presentation/layouts/home_layout.dart';
+import 'presentation/modules/login/login_screen.dart';
+import 'presentation/modules/on_boarding_screen.dart';
+import 'shared/bloc_observer.dart';
+import 'shared/components/styles/styles.dart';
+import 'shared/constants.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -66,7 +66,9 @@ class MyApp extends StatelessWidget {
             ..getCategories()
             ..getMeals()
             ..getRestaurants()
-            ..getCartProducts(),
+            ..getCartProducts()
+            ..getFavorites()
+            ..getOrdersHistory(),
         ),
         BlocProvider(
           create: (context) => MapsCubit(MapRepository(PlacesWebservices())),
@@ -77,14 +79,6 @@ class MyApp extends StatelessWidget {
         theme: lightTheme,
         home: startWidget,
       ),
-      // child: BlocConsumer<AppCubit, AppStates>(
-      //   listener: (context, state) {},
-      //   builder: (context, state) => MaterialApp(
-      //     debugShowCheckedModeBanner: false,
-      //     theme: lightTheme,
-      //     home: startWidget,
-      //   ),
-      // ),
     );
   }
 }
